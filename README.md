@@ -32,7 +32,7 @@ Now you're ready to program in SCLI!
 For more information about the language that is being developed, head on over [here](https://github.com/sv4u/scli-interpreter/blob/master/LANGUAGE.md)
 
 ## Contact
-If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](svvishnu@andrew.cmu.edu). I'm always looking for help.
+If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.
 
 ## [License](https://github.com/sv4u/scli-interpreter/blob/master/LICENSE)
 
