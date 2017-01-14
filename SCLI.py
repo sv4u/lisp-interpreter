@@ -87,7 +87,7 @@ def read(inport):
 		elif token is eof_object:
 			raise SyntaxError('unexpected EOF in list')
 		else:
-			return atom(token)
+			return atomize(token)
 
 	token1 = inport.next_token()
 	return (eof_object if token1 is eof_object else read_ahead(token1))
@@ -101,7 +101,7 @@ quotes = {
 	}
 
 
-def atom(token):
+def atomize(token):
 	'''Numbers become numbers; #t and #f are booleans; "..." string; otherwise Symbol.'''
 
 	if token == '#t':

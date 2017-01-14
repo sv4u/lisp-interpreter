@@ -28,6 +28,9 @@ Now you're ready to program in SCLI!
 - [ ] Fully finish language customization
 - [ ] Add cryptographic functions
 
+## Contact
+If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](svvishnu@andrew.cmu.edu). I'm always looking for help.
+
 ## License
 
 > MIT License
