@@ -82,12 +82,24 @@ def evaluate(x, env=global_env):
 		args = [evaluate(arg, env) for arg in x[1:]]
 		return proc(*args)
 
+
+def py_to_lisp(expression):
+	if (isinstance(expression, list)):
+		return '(' + ' '.join(map(py_to_lisp, expression)) + ')'
+	else:
+		return str(expression)
+
+
+def REPL(prompt='custom-lisp > '):
+	while True:
+		val = evaluate(parse(input(prompt)))
+		if (val is not None):
+			print(py_to_lisp(val))
+
+
 def testing():
 	program = "(begin (define t 42) (* pi (* t t)))"
+	print(program)
 	p = parse(program)
-	print(p)
 	e = evaluate(p)
 	print(e)
-
-
-testing()
