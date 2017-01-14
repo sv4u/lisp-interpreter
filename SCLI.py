@@ -1,47 +1,40 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 # this is a simple Lisp interpreter
 # there will be customization to it
 
-# IMPORTS
 import sys
 import re
-import math
-import cmath
-import operator as op
 
 
-# SYMBOLS
-# Lisp Symbols are equivalent to Python strings
+isa = isinstance
+
+
 class Symbol(str):
+
 	pass
 
 
-# Create a table to store and/or create new Symbols
 def Sym(s, symbol_table={}):
+	'''Find or create unique Symbol entry for str s in symbol table.'''
+
 	if s not in symbol_table:
 		symbol_table[s] = Symbol(s)
 	return symbol_table[s]
 
 
-# Standard Symbols
 (_quote, _if, _set, _define, _lambda, _begin, _definemacro) = map(Sym,
-	'quote if set! define lambda begin define-macro'.split())
+			'quote if set! define lambda begin define-macro'.split())
+
+(_quasiquote, _unquote, _unquotesplicing) = map(Sym,
+		'quasiquote unquote unquote-splicing'.split())
+
+(_append, _cons, _let) = (Sym('append'), Sym('cons'), Sym('let'))
 
 
-# More Standard Symbols
-(_quasiquote, _unquote, _unquotesplicing) = map(Sym,'quasiquote unquote unquote-splicing'.split())
-
-
-# More Standard Symbols
-_append, _cons, _let = Sym("append"), Sym("cons"), Sym("let")
-
-
-# Grouping all of the quote types together
-quotes = {"'": _quote, '`': _quasiquote, ',': _unquote, ',@': _unquotesplicing}
-
-
-# INPORT
-# Create the Input Port object
 class InPort(object):
+	'''An input port. Retains a line of chars.'''
+
 	tokenizer = r'''\s*(,@|[('`,)]|"(?:[\\].|[^\\"])*"|;.*|[^\s('"`,;)]*)(.*)'''
 
 	def __init__(self, file):
@@ -49,30 +42,35 @@ class InPort(object):
 		self.line = ''
 
 	def next_token(self):
+		'''Return the next token, reading new text into line buffer if needed.'''
+
 		while True:
 			if self.line == '':
 				self.line = self.file.readline()
 			if self.line == '':
-				return eof
-			(token, self.line) = re.match(InPort.tokenizer, self.line).groups()
+				return eof_object
+			(token, self.line) = re.match(InPort.tokenizer,
+					self.line).groups()
 			if token != '' and not token.startswith(';'):
 				return token
 
 
-# LEXING
-eof = Symbol('#<eof-object>')
+eof_object = Symbol('#<eof-object>')
 
-# Read next character from the input port
-def readchar(port):
-	if port.line != '':
-		(ch, port.line) = (port.line[0], port.line[1:])
+
+def readchar(inport):
+	'''Read the next character from an input port.'''
+
+	if inport.line != '':
+		(ch, inport.line) = (inport.line[0], inport.line[1:])
 		return ch
 	else:
-		return port.file.read(1) or eof
+		return inport.file.read(1) or eof_object
 
 
-# Read the Lisp expression from an input port
-def read(port):
+def read(inport):
+	'''Read a Lisp expression from an input port.'''
+
 	def read_ahead(token):
 		if '(' == token:
 			L = []
@@ -86,17 +84,26 @@ def read(port):
 			raise SyntaxError('unexpected )')
 		elif token in quotes:
 			return [quotes[token], read(inport)]
-		elif token is eof:
+		elif token is eof_object:
 			raise SyntaxError('unexpected EOF in list')
 		else:
-			return atomize(token)
-	token1 = port.next_token()
-	return (eof if token1 is eof else read_ahead(token1))
+			return atom(token)
+
+	token1 = inport.next_token()
+	return (eof_object if token1 is eof_object else read_ahead(token1))
 
 
-# Numbers become numbers, Lisp booleans become Python booleans, '...' is a string
-# Otherwise, the token becomes a Symbol
-def atomize(token):
+quotes = {
+	"'": _quote,
+	'`': _quasiquote,
+	',': _unquote,
+	',@': _unquotesplicing,
+	}
+
+
+def atom(token):
+	'''Numbers become numbers; #t and #f are booleans; "..." string; otherwise Symbol.'''
+
 	if token == '#t':
 		return True
 	elif token == '#f':
@@ -115,60 +122,84 @@ def atomize(token):
 				return Sym(token)
 
 
-# Convert a Python object to a Lisp object
-def py_to_lisp(x):
+def to_string(x):
+	'''Convert a Python object back into a Lisp-readable string.'''
+
 	if x is True:
 		return '#t'
 	elif x is False:
 		return '#f'
-	elif isinstance(x, Symbol):
+	elif isa(x, Symbol):
 		return x
-	elif isinstance(x, str):
+	elif isa(x, str):
 		return '"%s"' % x.encode('string_escape').replace('"', r'\"')
-	elif isinstance(x, list):
-		return '(' + ' '.join(map(py_to_lisp, x)) + ')'
-	elif isinstance(x, complex):
+	elif isa(x, list):
+		return '(' + ' '.join(map(to_string, x)) + ')'
+	elif isa(x, complex):
 		return str(x).replace('j', 'i')
 	else:
 		return str(x)
 
 
-# Standard SCLI REPL
-def repl(prompt='custom-lisp > ', inport=InPort(sys.stdin), out=sys.stdout):
+def load(filename):
+	'''Eval every expression from a file.'''
+
+	repl(None, InPort(open(filename)), None)
+
+
+def repl(prompt='scli > ', inport=InPort(sys.stdin), out=sys.stdout):
+	'''A standard SCLI read-eval-prompt loop.'''
+
 	while True:
 		try:
 			if prompt:
 				sys.stderr.write(prompt)
 			x = parse(inport)
-			if x is eof:
+			if x is eof_object:
 				return
-			val = evaluate(x)
+			val = eval(x)
 			if val is not None and out:
-				print >> out, py_to_lisp(val)
+				print >> out, to_string(val)
 		except Exception as e:
 			print('%s: %s' % (type(e).__name__, e))
 
 
-# Evaluate all lines from a Lisp file
-def load(filename):
-	repl(None, InPort(open(filename)), None)
+def let(*args):
+	'''Add the let macro'''
+
+	args = list(args)
+	x = cons(_let, args)
+	require(x, len(args) > 1)
+	(bindings, body) = (args[0], args[1:])
+	require(x, all(isa(b, list) and len(b) == 2 and isa(b[0], Symbol)
+			for b in bindings), 'illegal binding list')
+	(vars, vals) = zip(*bindings)
+	return [[_lambda, list(vars)] + map(expand, body)] + map(expand,
+			vals)
 
 
-# ENVIRONMENT
-# Create the standard environment for Lisp
-class Environment(dict):
-	# Bind parameters to their respective arguments, or a single parameter to a list of arguments
+macro_table = {_let: let}
+
+
+class Env(dict):
+
+	"""An environment: a dict of {'var':val} pairs, with an outer Env."""
+
 	def __init__(self, parms=(), args=(), outer=None):
+		'''Bind parms to args, or parms to a list or args'''
+
 		self.outer = outer
-		if isinstance(parms, Symbol):
+		if isa(parms, Symbol):
 			self.update({parms: list(args)})
 		else:
 			if len(args) != len(parms):
-				raise TypeError('expected %s, given %s, ' % (py_to_lisp(parms), py_to_lisp(args)))
-				self.update(zip(parms, args))
+				raise TypeError('expected %s, given %s, '
+								% (to_string(parms), to_string(args)))
+			self.update(zip(parms, args))
 
-	# Find the innermost Environment where 'var' appears
 	def find(self, var):
+		'''Find the innermost Env where var appears.'''
+
 		if var in self:
 			return self
 		elif self.outer is None:
@@ -176,14 +207,15 @@ class Environment(dict):
 		else:
 			return self.outer.find(var)
 
-
-# Primitive function to determine if it is a Lisp pair
 def is_pair(x):
-	return x != [] and isinstance(x, list)
+	'''Determine if x is a Lisp pair'''
+
+	return x != [] and isa(x, list)
 
 
-# Call proc with the current continuation; escape only
 def callcc(proc):
+	'''Call proc with current continuation; escape only'''
+
 	bail = RuntimeWarning("Sorry, can't continue this continuation any longer.")
 
 	def throw(retval):
@@ -198,185 +230,188 @@ def callcc(proc):
 		else:
 			raise w
 
-# Define 'let' macro
-def let(*args):
-	args = list(args)
-	x = cons(_let, args)
-	require(x, len(args) > 1)
-	(bindings, body) = (args[0], args[1:])
-	require(x, all(isinstance(b, list) and len(b) == 2 and isinstance(b[0], Symbol) for b in bindings), 'illegal binding list')
-	(vars, vals) = zip(*bindings)
-	return [[_lambda, list(vars)] + map(expand, body)] + map(expand, vals)
 
-
-# Table of macros
-# More macros can be added
-macro_table = {_let:let}
-
-
-# Add standard Lisp procedures
 def add_globals(self):
+	'''Add some Lisp standard procedures.'''
+
+	import math
+	import cmath
+	import operator as op
 	self.update(vars(math))
 	self.update(vars(cmath))
 	self.update({
-		'+': op.add, '-': op.sub, '*': op.mul, '/': op.truediv,
+		'+': op.add,
+		'-': op.sub,
+		'*': op.mul,
+		'/': op.truediv,
 		'not': op.not_,
-		'>': op.gt,	'<': op.lt, '>=': op.ge, '<=': op.le, '=': op.eq,
-		'equal?': op.eq, 'eq?': op.is_,
+		'>': op.gt,
+		'<': op.lt,
+		'>=': op.ge,
+		'<=': op.le,
+		'=': op.eq,
+		'equal?': op.eq,
+		'eq?': op.is_,
 		'length': len,
 		'cons': lambda x, y: [x] + list(y),
 		'car': lambda x: x[0],
 		'cdr': lambda x: x[1:],
 		'append': op.add,
 		'list': lambda *x: list(x),
-		'list?': lambda x: isinstance(x, list),
+		'list?': lambda x: isa(x, list),
 		'null?': lambda x: x == [],
-		'symbol?': lambda x: isinstance(x, Symbol),
-		'boolean?': lambda x: isinstance(x, bool),
+		'symbol?': lambda x: isa(x, Symbol),
+		'boolean?': lambda x: isa(x, bool),
 		'pair?': is_pair,
-		'port?': lambda x: isinstance(x, file),
+		'port?': lambda x: isa(x, file),
 		'apply': lambda proc, l: proc(*l),
-		'evaluate': lambda x: evaluate(expand(x)),
+		'eval': lambda x: eval(expand(x)),
 		'load': lambda fn: load(fn),
 		'call/cc': callcc,
 		'open-input-file': open,
 		'close-input-port': lambda p: p.file.close(),
 		'open-output-file': lambda f: open(f, 'w'),
 		'close-output-port': lambda p: p.close(),
-		'eof-object?': lambda x: x is eof,
+		'eof-object?': lambda x: x is eof_object,
 		'read-char': readchar,
 		'read': read,
-		'write': lambda x, port=sys.stdout: port.write(py_to_lisp(x)),
-		'display': lambda x, port=sys.stdout: port.write((x if isinstance(x, str) else py_to_lisp(x)))
+		'write': lambda x, port=sys.stdout: port.write(to_string(x)),
+		'display': lambda x, port=sys.stdout: port.write((x if isa(x,
+				str) else to_string(x))),
 		})
 	return self
 
 
-# Create standard environment
-environment = add_globals(Environment())
+global_env = add_globals(Env())
 
 
-# Evaluate an expression in the Lisp environment
-def evaluate(x, Environment=environment):
+def eval(x, env=global_env):
+	'''Evaluate an expression in an environment.'''
+
 	while True:
-		if isinstance(x, Symbol):															# variable reference
-			return Environment.find(x)[x]
-		elif not isinstance(x, list):													# constant literal
+		if isa(x, Symbol):
+			return env.find(x)[x]
+		elif not isa(x, list):
 			return x
-		elif x[0] is _quote:																	# (quote exp)
+		elif x[0] is _quote:
 			(_, exp) = x
 			return exp
-		elif x[0] is _if:																			# (if test conseq alt)
+		elif x[0] is _if:
 			(_, test, conseq, alt) = x
-			x = (conseq if evaluate(test, Environment) else alt)
-		elif x[0] is _set:																		# (set! var exp)
+			x = (conseq if eval(test, env) else alt)
+		elif x[0] is _set:
 			(_, var, exp) = x
-			Environment.find(var)[var] = evaluate(exp, Environment)
+			env.find(var)[var] = eval(exp, env)
 			return None
-		elif x[0] is _define:																	# (define var exp)
+		elif x[0] is _define:
 			(_, var, exp) = x
-			Environment[var] = evaluate(exp, Environment)
+			env[var] = eval(exp, env)
 			return None
-		elif x[0] is _lambda:																	# (lambda (var*) exp)
+		elif x[0] is _lambda:
 			(_, vars, exp) = x
-			return Procedure(vars, exp, Environment)
-		elif x[0] is _begin:																	# (begin exp+)
+			return Procedure(vars, exp, env)
+		elif x[0] is _begin:
 			for exp in x[1:-1]:
-				evaluate(exp, Environment)
+				eval(exp, env)
 			x = x[-1]
-		else:																									# (proc exp*)
-			exps = [evaluate(exp, Environment) for exp in x]
+		else:
+			exps = [eval(exp, env) for exp in x]
 			proc = exps.pop(0)
-			if isinstance(proc, Procedure):
+			if isa(proc, Procedure):
 				x = proc.exp
-				Environment = Environment(proc.parms, exps, proc.Environment)
+				env = Env(proc.parms, exps, proc.env)
 			else:
-					return proc(*exps)
+				return proc(*exps)
 
 
-# PROCEDURE
-# A user defined Lisp procedure
 class Procedure(object):
-	# Store the parameters, expression, and environment
-	def __init__(self, parms, exp, Environment):
-		(self.parms, self.exp, self.Environment) = (parms, exp, Environment)
 
-	# Recall the user defined procedure and evaluate
+	'''A user-defined Lisp procedure.'''
+
+	def __init__(self, parms, exp, env):
+		(self.parms, self.exp, self.env) = (parms, exp, env)
+
 	def __call__(self, *args):
-		return evaluate(self.exp, Environment(self.parms, args, self.Environment))
+		return eval(self.exp, Env(self.parms, args, self.env))
 
 
-# PARSING
-# Read and expand (error-check) a Lisp program
 def parse(inport):
+	'''Parse a program: read and expand/error-check it.'''
+
 	if isinstance(inport, str):
 		inport = InPort(StringIO.StringIO(inport))
 	return expand(read(inport), toplevel=True)
 
 
-# Walk the AST, make fixes in syntax (optimization), and raise SyntaxError
 def expand(x, toplevel=False):
-	require(x, x != [])																			# () => Error
-	if not isinstance(x, list):															# constant => unchanged
+	'''Walk tree of x, making optimizations/fixes, and signaling SyntaxError.'''
+
+	require(x, x != [])
+	if not isa(x, list):
 		return x
-	elif x[0] is _quote:																		# (quote ...)
+	elif x[0] is _quote:
 		require(x, len(x) == 2)
 		return x
 	elif x[0] is _if:
-		if len(x) == 3:																				# (if t c) => (if t c None)
+		if len(x) == 3:
 			x = x + [None]
-			require(x, len(x) == 4)
+		require(x, len(x) == 4)
 		return map(expand, x)
 	elif x[0] is _set:
 		require(x, len(x) == 3)
-		var = x[1]  																					# (set! non-var exp) => Error
-		require(x, isinstance(var, Symbol), 'can set! only a symbol')
+		var = x[1]
+		require(x, isa(var, Symbol), 'can set! only a symbol')
 		return [_set, var, expand(x[2])]
 	elif x[0] is _define or x[0] is _definemacro:
 		require(x, len(x) >= 3)
 		(_def, v, body) = (x[0], x[1], x[2:])
-		if isinstance(v, list) and v:													# (define (f args) body) => (define f (lambda (args) body))
-				(f, args) = (v[0], v[1:])
-				return expand([_def, f, [_lambda, args] + body])
+		if isa(v, list) and v:
+			(f, args) = (v[0], v[1:])
+			return expand([_def, f, [_lambda, args] + body])
 		else:
-			require(x, len(x) == 3)															# (define non-var/list exp) => Error
-			require(x, isinstance(v, Symbol), 'can define only a symbol')
+			require(x, len(x) == 3)
+			require(x, isa(v, Symbol), 'can define only a symbol')
 			exp = expand(x[2])
 			if _def is _definemacro:
-				require(x, toplevel, 'define-macro only allowed at top level')
-				proc = evaluate(exp)
+				require(x, toplevel,
+						'define-macro only allowed at top level')
+				proc = eval(exp)
 				require(x, callable(proc), 'macro must be a procedure')
-				macro_table[v] = proc															# (define-macro v proc) => None; add v:proc to macro_table
+				macro_table[v] = proc
 				return None
 			return [_define, v, exp]
 	elif x[0] is _begin:
-		if len(x) == 1:  																			# (begin) => None
+		if len(x) == 1:
 			return None
 		else:
-				return [expand(xi, toplevel) for xi in x]
-	elif x[0] is _lambda:																		# (lambda (x) e1 e2) => (lambda (x) (begin e1 e2))
+			return [expand(xi, toplevel) for xi in x]
+	elif x[0] is _lambda:
 		require(x, len(x) >= 3)
 		(vars, body) = (x[1], x[2:])
-		require(x, isinstance(vars, list) and all(isinstance(v, Symbol) for v in vars)
-			or isinstance(vars, Symbol), 'illegal lambda argument list')
+		require(x, isa(vars, list) and all(isa(v, Symbol) for v in
+				vars) or isa(vars, Symbol),
+				'illegal lambda argument list')
 		exp = (body[0] if len(body) == 1 else [_begin] + body)
 		return [_lambda, vars, expand(exp)]
-	elif x[0] is _quasiquote:																# `x => expand_quasiquote(x)
+	elif x[0] is _quasiquote:
 		require(x, len(x) == 2)
 		return expand_quasiquote(x[1])
-	elif isinstance(x[0], Symbol) and x[0] in macro_table:
-		return expand(macro_table[x[0]](*x[1:]), toplevel)		# (m arg...) => macroexpand if m isinstance macro
+	elif isa(x[0], Symbol) and x[0] in macro_table:
+		return expand(macro_table[x[0]](*x[1:]), toplevel)
 	else:
-		return map(expand, x) 																# (f arg...) => expand each
+		return map(expand, x)
 
 
-# Raise a SyntaxError if the predicate is false
 def require(x, predicate, msg='wrong length'):
-	if not predicate:
-		raise SyntaxError(py_to_lisp(x) + ': ' + msg)
+	'''Signal a syntax error if predicate is false.'''
 
-# Expand all the types of quotes
+	if not predicate:
+		raise SyntaxError(to_string(x) + ': ' + msg)
+
+
 def expand_quasiquote(x):
+	"""Expand `x => 'x; `,x => x; `(,@x y) => (append x y) """
+
 	if not is_pair(x):
 		return [_quote, x]
 	require(x, x[0] is not _unquotesplicing, "can't splice here")
@@ -387,4 +422,5 @@ def expand_quasiquote(x):
 		require(x[0], len(x[0]) == 2)
 		return [_append, x[0][1], expand_quasiquote(x[1:])]
 	else:
-		return [_cons, expand_quasiquote(x[0]), expand_quasiquote(x[1:])]
+		return [_cons, expand_quasiquote(x[0]),
+				expand_quasiquote(x[1:])]
