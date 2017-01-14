@@ -28,8 +28,19 @@ Now you're ready to program in SCLI!
 - [ ] Fully finish language customization
 - [ ] Add cryptographic functions
 
-## The SCLI Language
-For more information about the language that is being developed, head on over [here](https://github.com/sv4u/scli-interpreter/blob/master/LANGUAGE.md)
+## Language Specifications
+
+Currently, this language is extremely basic. The main goal of this language is to be simple and pure. Here is a table of what has been and has not been implemented:
+
+| Language Spec. | Date implemented |
+| --- | --- |
+| Standard math | 01 - 13 - 2017 |
+| Data types | 01 - 13 - 2017 |
+| Advanced math |	*currently in the works* |
+| For & While loops | *currently in the works* |
+| Proper exit from repl() | *currently in the works* |
+
+More information will come when I have a bit more time to clearly layout a plan for this language!
 
 ## Contact
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.
