@@ -8,9 +8,9 @@ I have been interested in creating a programming language for the past year. So,
 
 ## Usage
 
-In the Python console, import the [interpreter](https://github.com/sv4u/lisp-interpreter/blob/master/interpreter.py)
+In the Python console, import the [interpreter](https://github.com/sv4u/lisp-interpreter/blob/master/SCLI.py)
 ```python
->>> from interpreter import *
+>>> from SCLI import *
 ```
 Once the interpreter has been imported, run the '<repl()>' function like so:
 ```python
