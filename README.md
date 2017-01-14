@@ -14,8 +14,13 @@ In the Python console, import the [interpreter](https://github.com/sv4u/lisp-int
 ```
 Once the interpreter has been imported, run the '<repl()>' function like so:
 ```python
-repl()
+>>> repl()
 ```
+The output of this should be
+```python
+scli >
+```
+Now you're ready to program in SCLI!
 
 ## TODO
 - [x] Implement Lisp in Python
