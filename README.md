@@ -12,7 +12,7 @@ In the Python console, import the [interpreter](https://github.com/sv4u/lisp-int
 ```python
 >>> from SCLI import *
 ```
-Once the interpreter has been imported, run the '<repl()>' function like so:
+Once the interpreter has been imported, run the *read-evaluate-prompt-loop* function like so:
 ```python
 >>> repl()
 ```
@@ -24,6 +24,7 @@ Now you're ready to program in SCLI!
 
 ## TODO
 - [x] Implement Lisp in Python
+- [ ] Add more depth to the SCLI language
 - [ ] Create a more user friendly interface for programming
 - [ ] Fully finish language customization
 - [ ] Add cryptographic functions
@@ -33,7 +34,7 @@ Now you're ready to program in SCLI!
 Currently, this language is extremely basic. The main goal of this language is to be simple and pure. Here is a table of what has been and has not been implemented:
 
 | Language Spec. | Date implemented |
-| --- | --- |
+| --- | ---: |
 | Standard math | 01 - 13 - 2017 |
 | Data types | 01 - 13 - 2017 |
 | Advanced math |	*currently in the works* |
