@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # this is a simple Lisp interpreter
 # there will be customization to it
+# use Python 2.7 not 3.x
 
 import sys
 import re
