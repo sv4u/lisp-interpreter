@@ -87,6 +87,8 @@ def read(inport):
 			return [quotes[token], read(inport)]
 		elif token is eof_object:
 			raise SyntaxError('unexpected EOF in list')
+		elif '#quit' == token:
+			sys.exit()
 		else:
 			return atomize(token)
 
@@ -425,3 +427,6 @@ def expand_quasiquote(x):
 	else:
 		return [_cons, expand_quasiquote(x[0]),
 				expand_quasiquote(x[1:])]
+
+
+repl()
