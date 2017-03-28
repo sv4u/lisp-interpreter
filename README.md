@@ -20,6 +20,10 @@ The output of this should be
 ```python
 scli >
 ```
+To exit the prompt type
+```python
+scli > #quit
+```
 Now you're ready to program in SCLI!
 
 ## TODO
