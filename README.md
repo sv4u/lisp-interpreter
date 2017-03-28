@@ -1,6 +1,6 @@
 # A Simple (Custom) Lisp Interpreter
 
-**SCLI** (*A Simple (Custom) Lisp Interpreter*) is a custom Lisp interpreter built in Python 3.6.0. It is meant to follow the language I developed that is an offshoot of Lisp.
+**SCLI** (*A Simple (Custom) Lisp Interpreter*) is a custom Lisp interpreter built in Python 2.7.x. It is meant to follow the language I developed that is an offshoot of Lisp.
 
 ## Motivation
 
