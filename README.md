@@ -41,9 +41,9 @@ Currently, this language is extremely basic. The main goal of this language is t
 | --- | ---: |
 | Standard math | 01 - 13 - 2017 |
 | Data types | 01 - 13 - 2017 |
-| Advanced math |	*currently in the works* |
-| For & While loops | *currently in the works* |
-| Proper exit from repl() | *currently in the works* |
+| Proper exit from repl() | 03 - 28 - 2017 |
+| Advanced math |	*currently in the works (short-term)* |
+| For & While loops | *currently in the works (long-term)* |
 
 More information will come when I have a bit more time to clearly layout a plan for this language!
 
