@@ -22,7 +22,7 @@ scli >
 ```
 To exit the prompt type
 ```python
-scli > #quit
+scli > !quit
 ```
 Now you're ready to program in SCLI!
 
@@ -32,6 +32,7 @@ Now you're ready to program in SCLI!
 - [ ] Create a more user friendly interface for programming
 - [ ] Fully finish language customization
 - [ ] Add cryptographic functions
+- [ ] Create full flegded documentation
 
 ## Language Specifications
 

@@ -87,7 +87,7 @@ def read(inport):
 			return [quotes[token], read(inport)]
 		elif token is eof_object:
 			raise SyntaxError('unexpected EOF in list')
-		elif '#quit' == token:
+		elif '!quit' == token:
 			sys.exit()
 		else:
 			return atomize(token)
@@ -287,7 +287,7 @@ def add_globals(self):
 		'eof-object?': lambda x: x is eof_object,
 		'read-char': readchar,
 		'read': read,
-		'write': lambda x, port=sys.stdout: port.write(to_string(x)),
+		'write': lambda x, port=sys.stdout: port.write(to_string(x) + "\n"),
 		'display': lambda x, port=sys.stdout: port.write((x if isa(x,
 				str) else to_string(x))),
 		})
@@ -438,4 +438,7 @@ def expand_quasiquote(x):
 				expand_quasiquote(x[1:])]
 
 
-repl()
+if (len(sys.argv) == 2):
+	load(sys.argv[1])
+else:
+	repl()
