@@ -11,6 +11,7 @@ I have been interested in creating a programming language for the past year. So,
 Currently, we have the alpha release here: [github.com/sv4u/scli-interpreter/releases/tag/alpha](https://github.com/sv4u/scli-interpreter/releases/tag/alpha)
 
 ## TODO
+- [ ] Create an executable version of [SCLI.py](https://github.com/sv4u/lisp-interpreter/blob/master/SCLI.py)
 - [ ] Add more default mathematical functions to the SCLI language
 - [ ] Create a more user friendly interface for programming (a portable GUI)
 - [ ] Create full flegded documentation
