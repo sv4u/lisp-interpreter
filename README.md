@@ -6,12 +6,17 @@
 
 I have been interested in creating a programming language for the past year. So, I decided to read a bunch of manuals and then one day I finally tried writing one. This is the outcome of that day.
 
+## Releases
+
+Currently, we have the alpha release here: [github.com/sv4u/scli-interpreter/releases/tag/alpha](https://github.com/sv4u/scli-interpreter/releases/tag/alpha)
+
 ## TODO
 - [ ] Add more default mathematical functions to the SCLI language
 - [ ] Create a more user friendly interface for programming (a portable GUI)
 - [ ] Create full flegded documentation
 
 ### Mathematical Functions
+
 This language is meant to be mathematics heavy. Since I am quite interested in computer science research, SCLI is primarily a research language. Currently the list of mathematical functions to implement are:
 
 | Function | Description |
@@ -24,12 +29,15 @@ This language is meant to be mathematics heavy. Since I am quite interested in c
 | Logarithms | `log(x)` of multiple bases |
 
 ### SCLI Editor
+
 Similarly to how Python is bundled with IDLE, I would like to create a IDE for SCLI. This is currently the most long term goal as it will take the longest about of time.
 
 ### Documentation
+
 Adding a documentation to SCLI for learning how to use it and how it is extremely similar to Lisp would not only help me but also new users.
 
 ## Contact
+
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.
 
 ## [License](https://github.com/sv4u/scli-interpreter/blob/master/LICENSE)

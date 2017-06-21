@@ -8,7 +8,7 @@ I have been interested in creating a programming language for the past year. So,
 
 ## Usage
 
-In the Python console, import the [interpreter](https://github.com/sv4u/lisp-interpreter/blob/master/SCLI.py)
+In the Python console, import the [interpreter](https://github.com/sv4u/lisp-interpreter/blob/master/SCLI.py).
 Once the interpreter has been imported, run the *read-evaluate-prompt-loop* function like so:
 ```
 python SCLI.py
@@ -27,7 +27,12 @@ python SCLI.py file.scli
 ```
 Now you're ready to program in SCLI!
 
+## Releases
+
+Currently, we have the alpha release here: [github.com/sv4u/scli-interpreter/releases/tag/alpha](https://github.com/sv4u/scli-interpreter/releases/tag/alpha)
+
 ## Documentation
+
 I am currently working on creating a clear and descriptive documentation for SCLI.
 
 ## Contact
