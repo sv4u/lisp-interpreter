@@ -9,12 +9,9 @@ I have been interested in creating a programming language for the past year. So,
 ## Usage
 
 In the Python console, import the [interpreter](https://github.com/sv4u/lisp-interpreter/blob/master/SCLI.py)
-```python
->>> from SCLI import *
-```
 Once the interpreter has been imported, run the *read-evaluate-prompt-loop* function like so:
-```python
->>> repl()
+```
+python SCLI.py
 ```
 The output of this should be
 ```python
@@ -23,6 +20,10 @@ scli >
 To exit the prompt type
 ```python
 scli > !quit
+```
+To use SCLI as a compiler instead of a repl, you can run it like so:
+```
+python SCLI.py file.scli
 ```
 Now you're ready to program in SCLI!
 
