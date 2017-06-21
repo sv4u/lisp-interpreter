@@ -1,53 +1,33 @@
 # A Simple (Custom) Lisp Interpreter
 
-**SCLI** (*A Simple (Custom) Lisp Interpreter*) is a custom Lisp interpreter built in Python 2.7.x. It is meant to follow the language I developed that is an offshoot of Lisp.
+**SCLI** (*A Simple (Custom) Lisp Interpreter*) is a custom Lisp interpreter built in Python 2.7.x. It is meant to follow the language I developed that is an offshoot of Lisp. For more information you can head over to [sv4u.github.io/scli-interpreter](https://sv4u.github.io/scli-interpreter/)
 
 ## Motivation
 
 I have been interested in creating a programming language for the past year. So, I decided to read a bunch of manuals and then one day I finally tried writing one. This is the outcome of that day.
 
-## Usage
-
-In the Python console, import the [interpreter](https://github.com/sv4u/lisp-interpreter/blob/master/SCLI.py)
-Once the interpreter has been imported, run the *read-evaluate-prompt-loop* function like so:
-```
-python SCLI.py
-```
-The output of this should be
-```python
-scli >
-```
-To exit the prompt type
-```python
-scli > !quit
-```
-To use SCLI as a compiler instead of a repl, you can run it like so:
-```
-python SCLI.py file.scli
-```
-Now you're ready to program in SCLI!
-
 ## TODO
-- [x] Implement Lisp in Python
-- [ ] Add more depth to the SCLI language
-- [ ] Create a more user friendly interface for programming
-- [ ] Fully finish language customization
-- [ ] Add cryptographic functions
+- [ ] Add more default mathematical functions to the SCLI language
+- [ ] Create a more user friendly interface for programming (a portable GUI)
 - [ ] Create full flegded documentation
 
-## Language Specifications
+### Mathematical Functions
+This language is meant to be mathematics heavy. Since I am quite interested in computer science research, SCLI is primarily a research language. Currently the list of mathematical functions to implement are:
 
-Currently, this language is extremely basic. The main goal of this language is to be simple and pure. Here is a table of what has been and has not been implemented:
+| Function | Description |
+| :------- | :---------- |
+| Exponentiation | A simple `x^n` operator |
+| Modular exponentiation | A simple `x^y mod z` operator |
+| Square Root | A simple square root operator |
+| Ceiling and Floor | `ceil(x)` and `floor(x)` |
+| Absolute Value | `abs(x)` |
+| Logarithms | `log(x)` of multiple bases |
 
-| Language Spec. | Date implemented |
-| --- | ---: |
-| Standard math | 01 - 13 - 2017 |
-| Data types | 01 - 13 - 2017 |
-| Proper exit from repl() | 03 - 28 - 2017 |
-| Advanced math |	*currently in the works (short-term)* |
-| For & While loops | *currently in the works (long-term)* |
+### SCLI Editor
+Similarly to how Python is bundled with IDLE, I would like to create a IDE for SCLI. This is currently the most long term goal as it will take the longest about of time.
 
-More information will come when I have a bit more time to clearly layout a plan for this language!
+### Documentation
+Adding a documentation to SCLI for learning how to use it and how it is extremely similar to Lisp would not only help me but also new users.
 
 ## Contact
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.

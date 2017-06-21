@@ -27,27 +27,8 @@ python SCLI.py file.scli
 ```
 Now you're ready to program in SCLI!
 
-## TODO
-- [x] Implement Lisp in Python
-- [ ] Add more depth to the SCLI language
-- [ ] Create a more user friendly interface for programming
-- [ ] Fully finish language customization
-- [ ] Add cryptographic functions
-- [ ] Create full flegded documentation
-
-## Language Specifications
-
-Currently, this language is extremely basic. The main goal of this language is to be simple and pure. Here is a table of what has been and has not been implemented:
-
-| Language Spec. | Date implemented |
-| --- | ---: |
-| Standard math | 01 - 13 - 2017 |
-| Data types | 01 - 13 - 2017 |
-| Proper exit from repl() | 03 - 28 - 2017 |
-| Advanced math |	*currently in the works (short-term)* |
-| For & While loops | *currently in the works (long-term)* |
-
-More information will come when I have a bit more time to clearly layout a plan for this language!
+## Documentation
+I am currently working on creating a clear and descriptive documentation for SCLI.
 
 ## Contact
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.
