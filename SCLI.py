@@ -153,6 +153,9 @@ def load(filename):
 def repl(prompt='scli > ', inport=InPort(sys.stdin), out=sys.stdout):
     '''A standard SCLI read-eval-prompt loop.'''
 
+    print >> out, "Welcome to SCLI!"
+    print >> out, "Version: alpha"
+
     while True:
         try:
             if prompt:
