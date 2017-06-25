@@ -155,6 +155,7 @@ def repl(prompt='scli > ', inport=InPort(sys.stdin), out=sys.stdout):
 
     print >> out, "Welcome to SCLI!"
     print >> out, "Version: alpha"
+    print >> out, ""
 
     while True:
         try:
