@@ -33,7 +33,10 @@ Currently, we have the alpha release here: [github.com/sv4u/scli-interpreter/rel
 
 ## Documentation
 
-I am currently working on creating a clear and descriptive documentation for SCLI.
+To import the math package, type
+```python
+scli > (import 'math)
+```
 
 ## Contact
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.

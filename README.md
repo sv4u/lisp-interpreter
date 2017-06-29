@@ -20,14 +20,13 @@ Currently, we have the alpha release here: [github.com/sv4u/scli-interpreter/rel
 
 This language is meant to be mathematics heavy. Since I am quite interested in computer science research, SCLI is primarily a research language. Currently the list of mathematical functions to implement are:
 
-| Function | Description |
-| :------- | :---------- |
-| Exponentiation | A simple `x^n` operator |
-| Modular exponentiation | A simple `x^y mod z` operator |
-| Square Root | A simple square root operator |
-| Ceiling and Floor | `ceil(x)` and `floor(x)` |
-| Absolute Value | `abs(x)` |
-| Logarithms | `log(x)` of multiple bases |
+| Function | Description | Status |
+| :------- | :---------- | -----: |
+| Modular exponentiation | A simple `x^y mod z` operator | Done |
+| Square Root | A simple square root operator | Not Started |
+| Ceiling and Floor | `ceil(x)` and `floor(x)` | Not Started |
+| Absolute Value | `abs(x)` | Not Started |
+| Logarithms | `log(x)` of multiple bases | Not Started |
 
 ### SCLI Editor
 
