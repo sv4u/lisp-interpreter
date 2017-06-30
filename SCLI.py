@@ -103,6 +103,13 @@ quotes = {
     ',@': _unquotesplicing,
 }
 
+def add_libs(x, out=sys.stdout):
+    if x == "math":
+        from libs import mathlib
+        global_env.update(mathlib.func)
+    else:
+        print >> out, "ERROR: Library not found!"
+
 
 def atomize(token):
     '''Numbers become numbers; #t and #f are booleans; "..." string; otherwise Symbol.'''
@@ -186,13 +193,6 @@ def let(*args):
 
 
 macro_table = {_let: let}
-
-def add_libs(x, out=sys.stdout):
-    if x == "math":
-        from libs import mathlib
-        global_env.update(mathlib.func)
-    else:
-        print >> out, "ERROR: Library not found!"
 
 
 class Env(dict):
