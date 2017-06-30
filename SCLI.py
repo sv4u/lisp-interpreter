@@ -6,7 +6,6 @@
 
 import sys
 import re
-from libs import mathlib
 
 
 isa = isinstance
@@ -190,9 +189,8 @@ macro_table = {_let: let}
 
 def add_libs(x, out=sys.stdout):
     if x == "math":
-        global_env.update({
-            "modpow": lambda x, y, z: mathlib.modpow(x, y, z)
-            })
+        from libs import mathlib
+        global_env.update(mathlib.func)
     else:
         print >> out, "ERROR: Library not found!"
 

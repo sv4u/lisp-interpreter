@@ -38,6 +38,12 @@ To import the math package, type
 scli > (import 'math)
 ```
 
+Some math functions that have been implemented in the math package are
+- Exponentiation
+- Modular exponentiation
+- `sqrt(x)`
+- `nroot(x, n)`: the nth root of x
+
 ## Contact
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.
 

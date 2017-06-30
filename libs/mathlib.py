@@ -1,3 +1,9 @@
+func = {
+"modpow": lambda x, y, z: modpow(x, y, z),
+"sqrt": lambda x: sqrt(x),
+"nroot": lambda x, n: nroot(x, n)
+}
+
 def modpow(x, e, n):
 	y = 1
 	while e > 0:
@@ -8,3 +14,9 @@ def modpow(x, e, n):
 			y = (x * y) % n
 			e = e - 1
 	return y
+
+def sqrt(x):
+	return x ** (0.5)
+
+def nroot(x, n):
+	return x ** (1.0/n)
