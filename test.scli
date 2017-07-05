@@ -1,2 +1,1 @@
-(write '"Welcome to SCLI!")
-(write '"This is a test")
+(import 'math)

@@ -25,7 +25,7 @@ This language is meant to be mathematics heavy. Since I am quite interested in c
 | Modular exponentiation | A simple `x^y mod z` operator | Done |
 | Square Root | A simple square root operator | Done (with added `nroot` operator) |
 | Ceiling and Floor | `ceil(x)` and `floor(x)` | Not Started |
-| Absolute Value | `abs(x)` | Not Started |
+| Absolute Value | `abs(x)` | Done |
 | Logarithms | `log(x)` of multiple bases | Not Started |
 
 ### SCLI Editor
