@@ -24,11 +24,11 @@ def Sym(s, symbol_table={}):
     return symbol_table[s]
 
 
-(_quote, _if, _set, _define, _lambda, _begin, _definemacro) = map(Sym,
-                                                                  'quote if set! define lambda begin define-macro'.split())
+(_quote, _if, _set, _define, _lambda, _begin, _definemacro) = map(
+    Sym, 'quote if set! define lambda begin define-macro'.split())
 
-(_quasiquote, _unquote, _unquotesplicing) = map(Sym,
-                                                'quasiquote unquote unquote-splicing'.split())
+(_quasiquote, _unquote, _unquotesplicing) = map(
+    Sym, 'quasiquote unquote unquote-splicing'.split())
 
 (_append, _cons, _let) = (Sym('append'), Sym('cons'), Sym('let'))
 
@@ -43,7 +43,7 @@ class InPort(object):
         self.line = ''
 
     def next_token(self):
-        '''Return the next token, reading new text into line buffer if needed.'''
+        '''Return the next token'''
 
         while True:
             if self.line == '':
@@ -113,7 +113,7 @@ def add_libs(x, out=sys.stdout):
 
 
 def atomize(token):
-    '''Numbers become numbers; #t and #f are booleans; "..." string; otherwise Symbol.'''
+    '''Convert tokens to atomic types'''
 
     if token == '#t':
         return True
@@ -298,14 +298,14 @@ def add_globals(self):
         'read-char': readchar,
         'read': read,
         'write': lambda x, port=sys.stdout: port.write(to_string(x) + "\n"),
-        'display': lambda x, port=sys.stdout: port.write((x if isa(x,
-                                                                   str) else to_string(x))),
+        'display': lambda x, port=sys.stdout: port.write((x if isa(x, str) else to_string(x))),
         'import': lambda x: add_libs(to_string(x))
     })
     return self
 
 
 def add_math():
+    '''Add math library functions'''
 
     import math
 
@@ -333,7 +333,10 @@ def add_math():
         "abs": lambda x: abs(x),
         "ceil": lambda x: math.ceil(x),
         "floor": lambda x: math.floor(x),
-        }
+        "ln": lambda x: math.log(x),
+        "log": lambda x, n: math.log(x, n),
+        "log": lambda x: math.log(x, 2)
+    }
 
     return func
 
@@ -400,7 +403,7 @@ def parse(inport):
 
 
 def expand(x, toplevel=False):
-    '''Walk tree of x, making optimizations/fixes, and signaling SyntaxError.'''
+    '''Walk tree of x, making optimizations, and signaling SyntaxError'''
 
     require(x, x != [])
     if not isa(x, list):

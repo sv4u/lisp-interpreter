@@ -44,6 +44,7 @@ Some math functions that have been implemented in the math package are
 - `sqrt(x)`
 - `nroot(x, n)`: the nth root of x
 - `ceil(x)` and `floor(x)`
+- `ln(x)`, `log10(x)`, and `log2(x)`
 
 ## Contact
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.
