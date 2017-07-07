@@ -9,6 +9,7 @@ import re
 
 
 isa = isinstance
+VERSION = "0.2-alpha"
 
 
 class Symbol(str):
@@ -489,7 +490,7 @@ if (len(sys.argv) == 2):
     load(sys.argv[1])
 else:
     print "Welcome to SCLI!"
-    print "Version: 0.1-alpha"
+    print "Version: " + VERSION
     print ""
 
     repl()
