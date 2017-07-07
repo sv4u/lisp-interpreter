@@ -106,8 +106,7 @@ quotes = {
 
 def add_libs(x, out=sys.stdout):
     if x == "math":
-        from libs import mathlib
-        global_env.update(mathlib.func)
+        global_env.update(add_math())
         print >> out, "imported math library"
     else:
         print >> out, "ERROR: Library not found!"
@@ -161,10 +160,6 @@ def load(filename):
 
 def repl(prompt='scli > ', inport=InPort(sys.stdin), out=sys.stdout):
     '''A standard SCLI read-eval-prompt loop.'''
-
-    print >> out, "Welcome to SCLI!"
-    print >> out, "Version: alpha"
-    print >> out, ""
 
     while True:
         try:
@@ -308,6 +303,39 @@ def add_globals(self):
         'import': lambda x: add_libs(to_string(x))
     })
     return self
+
+
+def add_math():
+
+    import math
+
+    def modpow(x, e, n):
+        y = 1
+        while e > 0:
+            if e % 2 == 0:
+                x = (x * x) % n
+                e = e/2
+            else:
+                y = (x * y) % n
+                e = e - 1
+        return y
+
+    def sqrt(x):
+        return x ** (0.5)
+
+    def nroot(x, n):
+        return x ** (1.0 / n)
+
+    func = {
+        "modpow": lambda x, y, z: modpow(x, y, z),
+        "sqrt": lambda x: sqrt(x),
+        "nroot": lambda x, n: nroot(x, n),
+        "abs": lambda x: abs(x),
+        "ceil": lambda x: math.ceil(x),
+        "floor": lambda x: math.floor(x),
+        }
+
+    return func
 
 
 global_env = add_globals(Env())
@@ -457,59 +485,8 @@ def expand_quasiquote(x):
 if (len(sys.argv) == 2):
     load(sys.argv[1])
 else:
+    print "Welcome to SCLI!"
+    print "Version: 0.1-alpha"
+    print ""
+
     repl()
-
-
-import math
-
-func = {
-    "modpow": lambda x, y, z: modpow(x, y, z),
-    "sqrt": lambda x: sqrt(x),
-    "nroot": lambda x, n: nroot(x, n),
-    "abs": lambda x: abs(x),
-    #    "ceiling": lambda x: m.ceil(x),
-    #    "floor": lambda x: m.floor(x),
-    #    "factorial": lambda x: m.factorial(x),
-    "ln": lambda x: ln(x),
-    "log": lambda x, n: log(x, n),
-}
-
-
-def modpow(x, e, n):
-    y = 1
-    while e > 0:
-        if e % 2 == 0:
-            x = (x * x) % n
-            e = e/2
-        else:
-            y = (x * y) % n
-            e = e - 1
-    return y
-
-
-def sqrt(x):
-    return x ** (0.5)
-
-
-def nroot(x, n):
-    return x ** (1.0/n)
-
-
-def ceiling(x):
-    return math.ceil(x)
-
-
-def floor(x):
-    return math.floor(x)
-
-
-def factorial(x):
-    return math.factorial(x)
-
-
-def ln(x):
-    return math.log(x)
-
-
-def log(x, n):
-    return math.log(x, n)
