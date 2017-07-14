@@ -112,6 +112,9 @@ def add_libs(x, out=sys.stdout):
     else:
         print >> out, "ERROR: Library not found!"
 
+def add_user_libs(x):
+    repl(None, inport=InPort(open(x)))
+
 
 def atomize(token):
     '''Convert tokens to atomic types'''
@@ -300,7 +303,8 @@ def add_globals(self):
         'read': read,
         'write': lambda x, port=sys.stdout: port.write(to_string(x) + "\n"),
         'display': lambda x, port=sys.stdout: port.write((x if isa(x, str) else to_string(x))),
-        'import': lambda x: add_libs(to_string(x))
+        'import': lambda x: add_libs(to_string(x)),
+        'user-import': lambda x: add_user_libs(to_string(x))
     })
     return self
 
