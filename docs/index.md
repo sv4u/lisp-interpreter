@@ -38,6 +38,12 @@ To import the math package, type
 scli > (import 'math)
 ```
 
+To import a user package, type
+```python
+scli > (user-import '*user library*)
+```
+**Note:** The file name must have no spaces in it and must end in ".scli".
+
 Some math functions that have been implemented in the math package are
 - Exponentiation
 - Modular exponentiation
