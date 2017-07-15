@@ -12,11 +12,14 @@ Currently, we have the alpha release here: [github.com/sv4u/scli-interpreter/rel
 
 ## TODO
 - [ ] Create an executable version of [SCLI.py](https://github.com/sv4u/lisp-interpreter/blob/master/SCLI.py)
-- [ ] Add more default mathematical functions to the SCLI language
+- [x] Add more default mathematical functions to the SCLI language
+	- This was completed by adding the mathematics library
 - [ ] Create a more user friendly interface for programming (a portable GUI)
-- [ ] Create full flegded documentation
+- [x] Create full flegded documentation
+	- This documentation is only going to grow as features are added
+- [ ] Add a Strings, Equation Solving, and Statistics Library	
 
-### Mathematical Functions
+### Mathematical Functions Library - **DONE**
 
 This language is meant to be mathematics heavy. Since I am quite interested in computer science research, SCLI is primarily a research language. Currently the list of mathematical functions to implement are:
 
@@ -27,6 +30,45 @@ This language is meant to be mathematics heavy. Since I am quite interested in c
 | Ceiling and Floor | `ceil(x)` and `floor(x)` | Done |
 | Absolute Value | `abs(x)` | Done |
 | Logarithms | `log(x)` of multiple bases | Done (three types of logs: base e, 2, and n) |
+
+### String Functions Library - **NOT STARTED**
+
+The functions to add to this library are:
+
+| Function | Description | Status |
+| :------- | :---------- | -----: |
+| String Concatenation | Concatenate two strings | Not started |
+| Substring | Substring between two values | Not started |
+| Character At | Finds the specific character at an index | Not started |
+| Length | Get the length of a specific string | Not started |
+| Split | Split a string on a regular expression | Not started |
+
+### Equation Solving Library - **NOT STARTED**
+
+The functions to be added to this library are:
+
+| Function | Description | Status |
+| :------- | :---------- | -----: |
+| Linear Solver | Solves a linear equation | Not started |
+| Quadratic Solver | Solves a quadratic equation | Not started |
+| Cubic Solver | Solves a cubic equation | Not started |
+| Exponential Solver | Solves an exponential equation | Not started |
+| Logarithmic Solver | Solves a logarithmic equation | Not started |
+| Polynomial Solver | Solves a polynomial equation | Not started |
+| Derivative Calculator | Calculates derivative | Not started |
+| Integral Calculator | Calculate integral | Not started |
+| Polynomial Factoring | Factors a polynomial expression | Not started |
+
+### Statistic Analysis Library - **NOT STARTED**
+
+Some basic statistic analysis functions to be added are:
+
+| Function | Description | Status |
+| :------- | :---------- | -----: |
+| Standard T-test | Computes a standard T-test | Not started |
+| Z-score Calculator | Computes a Z-score | Not started |
+| ANNOVA Calculator | Computes an ANNOVA | Not started |
+| Multiple Distribution Calculator | Calculates multiple discributions | Not started |
 
 ### SCLI Editor
 
