@@ -108,9 +108,13 @@ quotes = {
 def add_libs(x, out=sys.stdout):
     if x == "math":
         global_env.update(add_math())
-        print >> out, "imported math library"
+    elif x == "strings":
+        global_env.update(add_strings())
+    elif x == "stats":
+        global_env.update(add_stats())
     else:
         print >> out, "ERROR: Library not found!"
+
 
 def add_user_libs(x):
     repl(None, inport=InPort(open(x)))
@@ -344,6 +348,14 @@ def add_math():
     }
 
     return func
+
+
+def add_strings():
+    func = {}
+
+
+def add_stats():
+    func = {}
 
 
 global_env = add_globals(Env())
