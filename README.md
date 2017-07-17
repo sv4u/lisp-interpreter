@@ -31,17 +31,17 @@ This language is meant to be mathematics heavy. Since I am quite interested in c
 | Absolute Value | `abs(x)` | Done |
 | Logarithms | `log(x)` of multiple bases | Done (three types of logs: base e, 2, and n) |
 
-### String Functions Library - **NOT STARTED**
+### String Functions Library - **DONE**
 
 The functions to add to this library are:
 
 | Function | Description | Status |
 | :------- | :---------- | -----: |
-| String Concatenation | Concatenate two strings | Not started |
-| Substring | Substring between two values | Not started |
-| Character At | Finds the specific character at an index | Not started |
-| Length | Get the length of a specific string | Not started |
-| Split | Split a string on a regular expression | Not started |
+| String Concatenation | Concatenate two strings | Done |
+| Substring | Substring between two values | Done |
+| Character At | Finds the specific character at an index | Done |
+| Length | Get the length of a specific string | Done |
+| Split | Split a string on a regular expression | Done |
 
 ### Equation Solving Library - **NOT STARTED**
 

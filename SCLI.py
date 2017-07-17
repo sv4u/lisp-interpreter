@@ -9,7 +9,7 @@ import re
 
 
 isa = isinstance
-VERSION = "0.3-alpha"
+VERSION = "0.4-alpha"
 
 
 class Symbol(str):
@@ -351,11 +351,21 @@ def add_math():
 
 
 def add_strings():
-    func = {}
+    func = {
+        "concat": lambda x, y: x + y,
+        "substring": lambda x, y, z: x[y:z],
+        "charat": lambda x, y: x[y],
+        "length": lambda x: len(x),
+        "split": lambda x, y: x.split(str(y))
+    }
+
+    return func
 
 
 def add_stats():
     func = {}
+
+    return func
 
 
 global_env = add_globals(Env())

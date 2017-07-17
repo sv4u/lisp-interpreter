@@ -1,2 +1,1 @@
-(write 'test)
 (define (test x y) (+ x y))
