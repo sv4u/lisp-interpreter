@@ -112,6 +112,8 @@ def add_libs(x, out=sys.stdout):
         global_env.update(add_strings())
     elif x == "stats":
         global_env.update(add_stats())
+    elif x == "solver":
+        global_env.update(add_solver())
     else:
         print >> out, "ERROR: Library not found!"
 
@@ -363,6 +365,12 @@ def add_strings():
 
 
 def add_stats():
+    func = {}
+
+    return func
+
+
+def add_solver():
     func = {}
 
     return func
