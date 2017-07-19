@@ -12,6 +12,13 @@ isa = isinstance
 VERSION = "0.4-alpha"
 
 
+###############################################################################
+###############################################################################
+#                                   Symbols                                   #
+###############################################################################
+###############################################################################
+
+
 class Symbol(str):
 
     pass
@@ -32,6 +39,12 @@ def Sym(s, symbol_table={}):
     Sym, 'quasiquote unquote unquote-splicing'.split())
 
 (_append, _cons, _let) = (Sym('append'), Sym('cons'), Sym('let'))
+
+###############################################################################
+###############################################################################
+#                                   InPorts                                   #
+###############################################################################
+###############################################################################
 
 
 class InPort(object):
@@ -58,6 +71,13 @@ class InPort(object):
 
 
 eof_object = Symbol('#<eof-object>')
+
+
+###############################################################################
+###############################################################################
+#                                   Reading                                   #
+###############################################################################
+###############################################################################
 
 
 def readchar(inport):
@@ -105,23 +125,6 @@ quotes = {
 }
 
 
-def add_libs(x, out=sys.stdout):
-    if x == "math":
-        global_env.update(add_math())
-    elif x == "strings":
-        global_env.update(add_strings())
-    elif x == "stats":
-        global_env.update(add_stats())
-    elif x == "solver":
-        global_env.update(add_solver())
-    else:
-        print >> out, "ERROR: Library not found!"
-
-
-def add_user_libs(x):
-    repl(None, inport=InPort(open(x)))
-
-
 def atomize(token):
     '''Convert tokens to atomic types'''
 
@@ -162,157 +165,24 @@ def to_string(x):
         return str(x)
 
 
-def load(filename):
-    '''Eval every expression from a file.'''
-
-    repl(None, InPort(open(filename)), None)
-
-
-def repl(prompt='scli > ', inport=InPort(sys.stdin), out=sys.stdout):
-    '''A standard SCLI read-eval-prompt loop.'''
-
-    while True:
-        try:
-            if prompt:
-                sys.stderr.write(prompt)
-            x = parse(inport)
-            if x is eof_object:
-                return
-            val = eval(x)
-            if val is not None and out:
-                print >> out, to_string(val)
-        except Exception as e:
-            print('%s: %s' % (type(e).__name__, e))
+###############################################################################
+###############################################################################
+#                                  Libraries                                  #
+###############################################################################
+###############################################################################
 
 
-def let(*args):
-    '''Add the let macro'''
-
-    args = list(args)
-    x = cons(_let, args)
-    require(x, len(args) > 1)
-    (bindings, body) = (args[0], args[1:])
-    require(x, all(isa(b, list) and len(b) == 2 and isa(b[0], Symbol)
-                   for b in bindings), 'illegal binding list')
-    (vars, vals) = zip(*bindings)
-    return [[_lambda, list(vars)] + map(expand, body)] + map(expand,
-                                                             vals)
-
-
-macro_table = {_let: let}
-
-
-class Env(dict):
-
-    """An environment: a dict of {'var':val} pairs, with an outer Env."""
-
-    def __init__(self, parms=(), args=(), outer=None):
-        '''Bind parms to args, or parms to a list or args'''
-
-        self.outer = outer
-        if isa(parms, Symbol):
-            self.update({parms: list(args)})
-        else:
-            if len(args) != len(parms):
-                raise TypeError('expected %s, given %s, '
-                                % (to_string(parms), to_string(args)))
-            self.update(zip(parms, args))
-
-    def find(self, var):
-        '''Find the innermost Env where var appears.'''
-
-        if var in self:
-            return self
-        elif self.outer is None:
-            raise LookupError(var)
-        else:
-            return self.outer.find(var)
-
-
-def is_pair(x):
-    '''Determine if x is a Lisp pair'''
-
-    return x != [] and isa(x, list)
-
-
-def callcc(proc):
-    '''Call proc with current continuation; escape only'''
-
-    bail = RuntimeWarning(
-        "Sorry, can't continue this continuation any longer.")
-
-    def throw(retval):
-        bail.retval = retval
-        raise bail
-
-    try:
-        return proc(throw)
-    except RuntimeWarning as w:
-        if w is bail:
-            return bail.retval
-        else:
-            raise w
-
-
-def add_globals(self):
-    '''Add some Lisp standard procedures.'''
-
-    import math
-    import cmath
-    import operator as op
-    self.update(vars(math))
-    self.update(vars(cmath))
-    self.update({
-        '+': op.add,
-        '-': op.sub,
-        '*': op.mul,
-        '/': op.truediv,
-        'mod': op.mod,
-        'not': op.not_,
-        '>': op.gt,
-        '<': op.lt,
-        '>=': op.ge,
-        '<=': op.le,
-        '=': op.eq,
-        'equal?': op.eq,
-        '>>': op.rshift,
-        '<<': op.lshift,
-        '|': op.or_,
-        '~': op.invert,
-        '&': op.and_,
-        'xor': op.xor,
-        'abs': op.abs,
-        'exp': op.pow,
-        'eq?': op.is_,
-        'length': len,
-        'cons': lambda x, y: [x] + list(y),
-        'car': lambda x: x[0],
-        'cdr': lambda x: x[1:],
-        'append': op.add,
-        'list': lambda *x: list(x),
-        'list?': lambda x: isa(x, list),
-        'null?': lambda x: x == [],
-        'symbol?': lambda x: isa(x, Symbol),
-        'boolean?': lambda x: isa(x, bool),
-        'pair?': is_pair,
-        'port?': lambda x: isa(x, file),
-        'apply': lambda proc, l: proc(*l),
-        'eval': lambda x: eval(expand(x)),
-        'load': lambda fn: load(fn),
-        'call/cc': callcc,
-        'open-input-file': open,
-        'close-input-port': lambda p: p.file.close(),
-        'open-output-file': lambda f: open(f, 'w'),
-        'close-output-port': lambda p: p.close(),
-        'eof-object?': lambda x: x is eof_object,
-        'read-char': readchar,
-        'read': read,
-        'write': lambda x, port=sys.stdout: port.write(to_string(x) + "\n"),
-        'display': lambda x, port=sys.stdout: port.write((x if isa(x, str) else to_string(x))),
-        'import': lambda x: add_libs(to_string(x)),
-        'user-import': lambda x: add_user_libs(to_string(x))
-    })
-    return self
+def add_libs(x, out=sys.stdout):
+    if x == "math":
+        global_env.update(add_math())
+    elif x == "strings":
+        global_env.update(add_strings())
+    elif x == "stats":
+        global_env.update(add_stats())
+    elif x == "solver":
+        global_env.update(add_solver())
+    else:
+        print >> out, "ERROR: Library not found!"
 
 
 def add_math():
@@ -376,7 +246,206 @@ def add_solver():
     return func
 
 
+def add_user_libs(x):
+    repl(None, inport=InPort(open(x)))
+
+
+###############################################################################
+###############################################################################
+#                                  Load+REPL                                  #
+###############################################################################
+###############################################################################
+
+
+def load(filename):
+    '''Eval every expression from a file.'''
+
+    repl(None, InPort(open(filename)), None)
+
+
+def repl(prompt='scli > ', inport=InPort(sys.stdin), out=sys.stdout):
+    '''A standard SCLI read-eval-prompt loop.'''
+
+    while True:
+        try:
+            if prompt:
+                sys.stderr.write(prompt)
+            x = parse(inport)
+            if x is eof_object:
+                return
+            val = eval(x)
+            if val is not None and out:
+                print >> out, to_string(val)
+        except Exception as e:
+            print('%s: %s' % (type(e).__name__, e))
+
+
+###############################################################################
+###############################################################################
+#                                     Let                                     #
+###############################################################################
+###############################################################################
+
+
+def let(*args):
+    '''Add the let macro'''
+
+    args = list(args)
+    x = cons(_let, args)
+    require(x, len(args) > 1)
+    (bindings, body) = (args[0], args[1:])
+    require(x, all(isa(b, list) and len(b) == 2 and isa(b[0], Symbol)
+                   for b in bindings), 'illegal binding list')
+    (vars, vals) = zip(*bindings)
+    return [[_lambda, list(vars)] + map(expand, body)] + map(expand,
+                                                             vals)
+
+
+macro_table = {_let: let}
+
+
+###############################################################################
+###############################################################################
+#                                 Environment                                 #
+###############################################################################
+###############################################################################
+
+
+class Env(dict):
+
+    """An environment: a dict of {'var':val} pairs, with an outer Env."""
+
+    def __init__(self, parms=(), args=(), outer=None):
+        '''Bind parms to args, or parms to a list or args'''
+
+        self.outer = outer
+        if isa(parms, Symbol):
+            self.update({parms: list(args)})
+        else:
+            if len(args) != len(parms):
+                raise TypeError('expected %s, given %s, '
+                                % (to_string(parms), to_string(args)))
+            self.update(zip(parms, args))
+
+    def find(self, var):
+        '''Find the innermost Env where var appears.'''
+
+        if var in self:
+            return self
+        elif self.outer is None:
+            raise LookupError(var)
+        else:
+            return self.outer.find(var)
+
+
+###############################################################################
+###############################################################################
+#                               Pair and CallCC                               #
+###############################################################################
+###############################################################################
+
+
+def is_pair(x):
+    '''Determine if x is a Lisp pair'''
+
+    return x != [] and isa(x, list)
+
+
+def callcc(proc):
+    '''Call proc with current continuation; escape only'''
+
+    bail = RuntimeWarning(
+        "Sorry, can't continue this continuation any longer.")
+
+    def throw(retval):
+        bail.retval = retval
+        raise bail
+
+    try:
+        return proc(throw)
+    except RuntimeWarning as w:
+        if w is bail:
+            return bail.retval
+        else:
+            raise w
+
+
+###############################################################################
+###############################################################################
+#                                   Globals                                   #
+###############################################################################
+###############################################################################
+
+
+def add_globals(self):
+    '''Add some Lisp standard procedures.'''
+
+    import math
+    import cmath
+    import operator as op
+    self.update(vars(math))
+    self.update(vars(cmath))
+    self.update({
+        '+': op.add,
+        '-': op.sub,
+        '*': op.mul,
+        '/': op.truediv,
+        'mod': op.mod,
+        'not': op.not_,
+        '>': op.gt,
+        '<': op.lt,
+        '>=': op.ge,
+        '<=': op.le,
+        '=': op.eq,
+        'equal?': op.eq,
+        '>>': op.rshift,
+        '<<': op.lshift,
+        '|': op.or_,
+        '~': op.invert,
+        '&': op.and_,
+        'xor': op.xor,
+        'abs': op.abs,
+        'exp': op.pow,
+        'eq?': op.is_,
+        'length': len,
+        'cons': lambda x, y: [x] + list(y),
+        'car': lambda x: x[0],
+        'cdr': lambda x: x[1:],
+        'append': op.add,
+        'list': lambda *x: list(x),
+        'list?': lambda x: isa(x, list),
+        'null?': lambda x: x == [],
+        'symbol?': lambda x: isa(x, Symbol),
+        'boolean?': lambda x: isa(x, bool),
+        'pair?': is_pair,
+        'port?': lambda x: isa(x, file),
+        'apply': lambda proc, l: proc(*l),
+        'eval': lambda x: eval(expand(x)),
+        'load': lambda fn: load(fn),
+        'call/cc': callcc,
+        'open-input-file': open,
+        'close-input-port': lambda p: p.file.close(),
+        'open-output-file': lambda f: open(f, 'w'),
+        'close-output-port': lambda p: p.close(),
+        'eof-object?': lambda x: x is eof_object,
+        'read-char': readchar,
+        'read': read,
+        'write': lambda x, port=sys.stdout: port.write(to_string(x) + "\n"),
+        'display': lambda x, port=sys.stdout: port.write((x if isa(x, str) else to_string(x))),
+        'import': lambda x: add_libs(to_string(x)),
+        'user-import': lambda x: add_user_libs(to_string(x))
+    })
+    return self
+
+
 global_env = add_globals(Env())
+
+
+###############################################################################
+###############################################################################
+#                                 Evaluations                                 #
+###############################################################################
+###############################################################################
 
 
 def eval(x, env=global_env):
@@ -418,6 +487,13 @@ def eval(x, env=global_env):
                 return proc(*exps)
 
 
+###############################################################################
+###############################################################################
+#                                  Procedure                                  #
+###############################################################################
+###############################################################################
+
+
 class Procedure(object):
 
     '''A user-defined Lisp procedure.'''
@@ -427,6 +503,13 @@ class Procedure(object):
 
     def __call__(self, *args):
         return eval(self.exp, Env(self.parms, args, self.env))
+
+
+###############################################################################
+###############################################################################
+#                                   Parsing                                   #
+###############################################################################
+###############################################################################
 
 
 def parse(inport):
@@ -518,6 +601,13 @@ def expand_quasiquote(x):
     else:
         return [_cons, expand_quasiquote(x[0]),
                 expand_quasiquote(x[1:])]
+
+
+###############################################################################
+###############################################################################
+#                                    Main                                     #
+###############################################################################
+###############################################################################
 
 
 if (len(sys.argv) == 2):
