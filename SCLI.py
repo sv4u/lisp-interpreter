@@ -10,6 +10,7 @@ import re
 
 isa = isinstance
 VERSION = "0.4-alpha"
+current_prompt = 'scli v:' + VERSION + ' > '
 
 
 ###############################################################################
@@ -39,6 +40,7 @@ def Sym(s, symbol_table={}):
     Sym, 'quasiquote unquote unquote-splicing'.split())
 
 (_append, _cons, _let) = (Sym('append'), Sym('cons'), Sym('let'))
+
 
 ###############################################################################
 ###############################################################################
@@ -263,7 +265,7 @@ def load(filename):
     repl(None, InPort(open(filename)), None)
 
 
-def repl(prompt='scli > ', inport=InPort(sys.stdin), out=sys.stdout):
+def repl(prompt=current_prompt, inport=InPort(sys.stdin), out=sys.stdout):
     '''A standard SCLI read-eval-prompt loop.'''
 
     while True:
@@ -613,8 +615,8 @@ def expand_quasiquote(x):
 if (len(sys.argv) == 2):
     load(sys.argv[1])
 else:
-    print "Welcome to SCLI!"
-    print "Version: " + VERSION
+    print "Welcome to SCLI " + VERSION
+    print "To quit: !quit"
     print ""
 
     repl()
