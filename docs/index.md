@@ -44,6 +44,18 @@ scli > (user-import '*user library*)
 ```
 **Note:** The file name must have no spaces in it and must end in ".scli".
 
+### Current Libraries
+The current libraries that have been implemented fully are:
+- Math
+- Strings
+
+Libraries that are under development are:
+- Solver
+
+Libraries that have not been developed yet are:
+- Statistics
+
+### Math Library
 Some math functions that have been implemented in the ```math``` package are:
 - Exponentiation
 - Modular exponentiation
@@ -52,6 +64,7 @@ Some math functions that have been implemented in the ```math``` package are:
 - `ceil(x)` and `floor(x)`
 - `ln(x)`, `log10(x)`, and `log2(x)`
 
+### Strings Library
 Some string functions that have been implemented in the ```strings``` package are:
 - Concatenation
 - Substrings
@@ -59,16 +72,35 @@ Some string functions that have been implemented in the ```strings``` package ar
 - Length
 - Split on a regular expression
 
+### Solver Library
 Some solver functions that have been implemented in the ```solver``` package are:
 - Linear Solving
 	- Format:
-	- ```(linear-solve a b)``` solves ```ax = b```
+```lisp
+(linear-solve a b)
+```
+solves
+```
+ax = b
+```
 - Quadratic Solving
 	- Format:
-	- ```(quadraticr-solve a b c)``` solves ```ax^2 + bx = c```
+```lisp
+(quadraticr-solve a b c)
+```
+solves
+```
+ax^2 + bx = c
+```
 - Cubic Solving
 	- Format:
-	- ```(linear-solve a b)``` solves ```ax^3 + bx^2 + cx = d```
+```lisp
+(linear-solve a b)
+```
+solves
+```
+ax^3 + bx^2 + cx = d
+```
 
 Note: this packages uses the Sympy library.
 
