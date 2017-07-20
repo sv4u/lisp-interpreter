@@ -49,12 +49,12 @@ The functions to be added to this library are:
 
 | Function | Description | Status |
 | :------- | :---------- | -----: |
-| Linear Solver | Solves a linear equation | Not started |
-| Quadratic Solver | Solves a quadratic equation | Not started |
-| Cubic Solver | Solves a cubic equation | Not started |
+| Linear Solver | Solves a linear equation | Done |
+| Quadratic Solver | Solves a quadratic equation | Done |
+| Cubic Solver | Solves a cubic equation | Done |
 | Exponential Solver | Solves an exponential equation | Not started |
 | Logarithmic Solver | Solves a logarithmic equation | Not started |
-| Polynomial Solver | Solves a polynomial equation | Not started |
+| Polynomial Solver | Solves a polynomial equation | Deemed Not Possible |
 | Derivative Calculator | Calculates derivative | Not started |
 | Integral Calculator | Calculate integral | Not started |
 | Polynomial Factoring | Factors a polynomial expression | Not started |

@@ -262,6 +262,7 @@ def add_solver():
         solution = solve(a * (x ** 3) + b * (x ** 2) + c * x - d, x)
         return map(N, solution)
 
+
     func = {
         "linear-solve": lambda a, b: linsolve(a, b),
         "quadratic-solve": lambda a, b, c: quadsolve(a, b, c),

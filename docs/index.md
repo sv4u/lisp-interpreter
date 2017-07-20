@@ -59,6 +59,19 @@ Some string functions that have been implemented in the ```strings``` package ar
 - Length
 - Split on a regular expression
 
+Some solver functions that have been implemented in the ```solver``` package are:
+- Linear Solving
+	- Format:
+	- ```(linear-solve a b)``` solves ```ax = b```
+- Quadratic Solving
+	- Format:
+	- ```(quadraticr-solve a b c)``` solves ```ax^2 + bx = c```
+- Cubic Solving
+	- Format:
+	- ```(linear-solve a b)``` solves ```ax^3 + bx^2 + cx = d```
+
+Note: this packages uses the Sympy library.
+
 ## Contact
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.
 
