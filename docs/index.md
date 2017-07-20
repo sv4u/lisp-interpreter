@@ -102,7 +102,7 @@ solves
 ax^3 + bx^2 + cx = d
 ```
 
-Note: this packages uses the Sympy library.
+Note: this packages uses the [SymPy](http://www.sympy.org/en/index.html) library.
 
 ## Contact
 If you are interested in seeing this project grow or helping me, feel free to contact me at [svvishnu@andrew.cmu.edu](mailto:svvishnu@andrew.cmu.edu). I'm always looking for help.

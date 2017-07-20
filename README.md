@@ -43,7 +43,7 @@ The functions to add to this library are:
 | Length | Get the length of a specific string | Done |
 | Split | Split a string on a regular expression | Done |
 
-### Equation Solving Library - **NOT STARTED**
+### Equation Solving Library - **STARTED**
 
 The functions to be added to this library are:
 
