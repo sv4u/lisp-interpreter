@@ -45,6 +45,7 @@ scli > (user-import '*user library*)
 **Note:** The file name must have no spaces in it and must end in ".scli".
 
 ### Current Libraries
+
 The current libraries that have been implemented fully are:
 - Math
 - Strings
@@ -56,6 +57,7 @@ Libraries that have not been developed yet are:
 - Statistics
 
 ### Math Library
+
 Some math functions that have been implemented in the ```math``` package are:
 - Exponentiation
 - Modular exponentiation
@@ -65,6 +67,7 @@ Some math functions that have been implemented in the ```math``` package are:
 - `ln(x)`, `log10(x)`, and `log2(x)`
 
 ### Strings Library
+
 Some string functions that have been implemented in the ```strings``` package are:
 - Concatenation
 - Substrings
@@ -73,6 +76,7 @@ Some string functions that have been implemented in the ```strings``` package ar
 - Split on a regular expression
 
 ### Solver Library
+
 Some solver functions that have been implemented in the ```solver``` package are:
 - Linear Solving
 	- Format:
