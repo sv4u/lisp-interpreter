@@ -227,6 +227,7 @@ def add_math():
 
 
 def add_strings():
+    '''String library'''
     func = {
         "concat": lambda x, y: x + y,
         "substring": lambda x, y, z: x[y:z],
@@ -239,12 +240,15 @@ def add_strings():
 
 
 def add_stats():
+    '''Stats library'''
+    
     func = {}
 
     return func
 
 
 def add_solver():
+    '''Solver library'''
 
     def linsolve(a, b):
         x = sympy.Symbol("x")
