@@ -10,6 +10,7 @@ from sympy.solvers import solve
 from sympy import N
 import sympy
 from libs.mathlib import *
+from libs.solverlib import *
 import math
 
 isa = isinstance
@@ -211,6 +212,7 @@ def add_math():
 
 def add_strings():
     '''String library'''
+
     func = {
         "concat": lambda x, y: x + y,
         "substring": lambda x, y, z: x[y:z],
@@ -233,23 +235,6 @@ def add_stats():
 def add_solver():
     '''Solver library'''
 
-    def linsolve(a, b):
-        x = sympy.Symbol("x")
-        return map(N, solve(a * x - b, x))
-
-
-    def quadsolve(a, b, c):
-        x = sympy.Symbol("x")
-        solution = solve(a * (x ** 2) + b * x - c, x)
-        return map(N, solution)
-
-
-    def cubesolve(a, b, c, d):
-        x = sympy.Symbol("x")
-        solution = solve(a * (x ** 3) + b * (x ** 2) + c * x - d, x)
-        return map(N, solution)
-
-
     func = {
         "linear-solve": lambda a, b: linsolve(a, b),
         "quadratic-solve": lambda a, b, c: quadsolve(a, b, c),
@@ -260,6 +245,7 @@ def add_solver():
 
 
 def add_user_libs(x):
+    
     repl(None, inport=InPort(open(x)))
 
 
