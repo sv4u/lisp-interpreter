@@ -9,6 +9,8 @@ import re
 from sympy.solvers import solve
 from sympy import N
 import sympy
+from libs.mathlib import *
+import math
 
 isa = isinstance
 VERSION = "0.4-alpha"
@@ -192,28 +194,9 @@ def add_libs(x, out=sys.stdout):
 def add_math():
     '''Add math library functions'''
 
-    import math
-
-    def modpow(x, e, n):
-        y = 1
-        while e > 0:
-            if e % 2 == 0:
-                x = (x * x) % n
-                e = e/2
-            else:
-                y = (x * y) % n
-                e = e - 1
-        return y
-
-    def sqrt(x):
-        return x ** (0.5)
-
-    def nroot(x, n):
-        return x ** (1.0 / n)
-
     func = {
         "modpow": lambda x, y, z: modpow(x, y, z),
-        "sqrt": lambda x: sqrt(x),
+        "sqrt": lambda x: math.sqrt(x),
         "nroot": lambda x, n: nroot(x, n),
         "abs": lambda x: abs(x),
         "ceil": lambda x: math.ceil(x),
@@ -241,7 +224,7 @@ def add_strings():
 
 def add_stats():
     '''Stats library'''
-    
+
     func = {}
 
     return func
