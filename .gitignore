@@ -89,3 +89,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Mac Remove .DS_Store
+.DS_Store
