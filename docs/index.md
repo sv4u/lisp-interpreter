@@ -31,6 +31,10 @@ Now you're ready to program in SCLI!
 
 Currently, we have the alpha release here: [github.com/sv4u/scli-interpreter/releases/tag/alpha](https://github.com/sv4u/scli-interpreter/releases/tag/alpha)
 
+## Install
+
+To install, clone the repository into any directory you wish. Then, add that directory to your `PATH` so that you can execute `scli` from anywhere.
+
 ## Documentation
 
 To import the math package, type
