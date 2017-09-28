@@ -894,12 +894,11 @@ int main(int argc, char** argv) {
   /* Interactive Prompt */
   if (argc == 1) {
   
-    puts("Lispy Version 0.0.0.1.0");
-    puts("Press Ctrl+c to Exit\n");
-  
+    puts("SCLI Version 0.4-alpha");
+      
     while (1) {
     
-      char* input = readline("lispy> ");
+      char* input = readline("scli v0.4-alpha > ");
       add_history(input);
       
       mpc_result_t r;

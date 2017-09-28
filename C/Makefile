@@ -1,21 +1,21 @@
 CC = cc
 CFLAGS = -std=c99 -Wall -g
 LFLAGS = 
-FILES = hello_world prompt doge_code doge_grammar parsing evaluation error_handling s_expressions q_expressions variables functions conditionals strings
+FILES = scli
 PLATFORM = $(shell uname)
 
 ifeq ($(findstring Linux,$(PLATFORM)),Linux)
 	LFLAGS += -ledit -lm
-	FILES += prompt_unix
+#	FILES += prompt_unix
 endif
-
+#
 ifeq ($(findstring Darwin,$(PLATFORM)),Darwin)
 	LFLAGS += -ledit -lm
-	FILES += prompt_unix
+#	FILES += prompt_unix
 endif
 
 ifeq ($(findstring MINGW,$(PLATFORM)),MINGW)
-	FILES += prompt_windows
+#	FILES += prompt_windows
 endif
 
 all: $(FILES)
