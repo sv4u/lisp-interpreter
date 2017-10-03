@@ -17,7 +17,6 @@ void add_history(char* unused) {}
 
 #else
 #include <editline/readline.h>
-//#include <editline/history.h>
 #endif
 
 /* Parser Declariations */
@@ -29,7 +28,7 @@ mpc_parser_t* Comment;
 mpc_parser_t* Sexpr;  
 mpc_parser_t* Qexpr;  
 mpc_parser_t* Expr; 
-mpc_parser_t* Lispy;
+mpc_parser_t* Scli;
 
 /* Forward Declarations */
 
@@ -613,7 +612,7 @@ lval* builtin_load(lenv* e, lval* a) {
   
   /* Parse File given by string name */
   mpc_result_t r;
-  if (mpc_parse_contents(a->cell[0]->str, Lispy, &r)) {
+  if (mpc_parse_contents(a->cell[0]->str, Scli, &r)) {
     
     /* Read contents */
     lval* expr = lval_read(r.output);
@@ -684,7 +683,7 @@ void lenv_add_builtin(lenv* e, char* name, lbuiltin func) {
 
 void lenv_add_builtins(lenv* e) {
   /* Variable Functions */
-  lenv_add_builtin(e, "\\",  builtin_lambda); 
+  lenv_add_builtin(e, "lambda",  builtin_lambda); 
   lenv_add_builtin(e, "def", builtin_def);
   lenv_add_builtin(e, "=",   builtin_put);
   
@@ -872,7 +871,7 @@ int main(int argc, char** argv) {
   Sexpr   = mpc_new("sexpr");
   Qexpr   = mpc_new("qexpr");
   Expr    = mpc_new("expr");
-  Lispy   = mpc_new("lispy");
+  Scli    = mpc_new("scli");
   
   mpca_lang(MPCA_LANG_DEFAULT,
     "                                              \
@@ -884,9 +883,9 @@ int main(int argc, char** argv) {
       qexpr   : '{' <expr>* '}' ;                  \
       expr    : <number>  | <symbol> | <string>    \
               | <comment> | <sexpr>  | <qexpr>;    \
-      lispy   : /^/ <expr>* /$/ ;                  \
+      scli    : /^/ <expr>* /$/ ;                  \
     ",
-    Number, Symbol, String, Comment, Sexpr, Qexpr, Expr, Lispy);
+    Number, Symbol, String, Comment, Sexpr, Qexpr, Expr, Scli);
   
   lenv* e = lenv_new();
   lenv_add_builtins(e);
@@ -895,14 +894,14 @@ int main(int argc, char** argv) {
   if (argc == 1) {
   
     puts("SCLI Version 0.4-alpha");
-      
+
     while (1) {
     
       char* input = readline("scli v0.4-alpha > ");
       add_history(input);
       
       mpc_result_t r;
-      if (mpc_parse("<stdin>", input, Lispy, &r)) {
+      if (mpc_parse("<stdin>", input, Scli, &r)) {
         
         lval* x = lval_eval(e, lval_read(r.output));
         lval_println(x);
@@ -941,7 +940,7 @@ int main(int argc, char** argv) {
   
   mpc_cleanup(8, 
     Number, Symbol, String, Comment, 
-    Sexpr,  Qexpr,  Expr,   Lispy);
+    Sexpr,  Qexpr,  Expr,   Scli);
   
   return 0;
 }
