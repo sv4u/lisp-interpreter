@@ -1,2 +1,6 @@
 #!/bin/bash
-rlwrap python SCLI.py
+if [ "$1" != "" ]; then
+  rlwrap python2 SCLI.py "$1"
+else
+  rlwrap python2 SCLI.py
+fi
