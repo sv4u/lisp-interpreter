@@ -1,6 +1,6 @@
 # A Simple (Custom) Lisp Interpreter
 
-**SCLI** (*A Simple (Custom) Lisp Interpreter*) is a custom Lisp interpreter built in Python 2.7.x. It is meant to follow the language I developed that is an offshoot of Lisp. For more information you can head over to [sv4u.github.io/scli-interpreter](https://sv4u.github.io/scli-interpreter/)
+**SCLI** (_A Simple (Custom) Lisp Interpreter_) is a custom Lisp interpreter built in Python 2.7.x. It is meant to follow the language I developed that is an offshoot of Lisp. For more information you can head over to [sv4u.github.io/scli-interpreter](https://sv4u.github.io/scli-interpreter/)
 
 ## Motivation
 
@@ -15,63 +15,62 @@ Currently, we have the alpha release here: [github.com/sv4u/scli-interpreter/rel
 To install, clone the repository into any directory you wish. Then, add that directory to your `PATH` so that you can execute `scli` from anywhere.
 
 ## TODO
+
 - [ ] Create an executable version of [SCLI.py](https://github.com/sv4u/lisp-interpreter/blob/master/SCLI.py)
-- [x] Add more default mathematical functions to the SCLI language
-	- This was completed by adding the mathematics library
+- [x] Add more default mathematical functions to the SCLI language - This was completed by adding the mathematics library
 - [ ] Create a more user friendly interface for programming (a portable GUI)
-- [x] Create full flegded documentation
-	- This documentation is only going to grow as features are added
+- [x] Create full flegded documentation - This documentation is only going to grow as features are added
 - [ ] Add a Strings, Equation Solving, and Statistics Library
 
 ### Mathematical Functions Library - **DONE**
 
 This language is meant to be mathematics heavy. Since I am quite interested in computer science research, SCLI is primarily a research language. Currently the list of mathematical functions to implement are:
 
-| Function | Description | Status |
-| :------- | :---------- | -----: |
-| Modular exponentiation | A simple `x^y mod z` operator | Done |
-| Square Root | A simple square root operator | Done (with added `nroot` operator) |
-| Ceiling and Floor | `ceil(x)` and `floor(x)` | Done |
-| Absolute Value | `abs(x)` | Done |
-| Logarithms | `log(x)` of multiple bases | Done (three types of logs: base e, 2, and n) |
+| Function               | Description                   |                                       Status |
+| :--------------------- | :---------------------------- | -------------------------------------------: |
+| Modular exponentiation | A simple `x^y mod z` operator |                                         Done |
+| Square Root            | A simple square root operator |           Done (with added `nroot` operator) |
+| Ceiling and Floor      | `ceil(x)` and `floor(x)`      |                                         Done |
+| Absolute Value         | `abs(x)`                      |                                         Done |
+| Logarithms             | `log(x)` of multiple bases    | Done (three types of logs: base e, 2, and n) |
 
 ### String Functions Library - **DONE**
 
 The functions to add to this library are:
 
-| Function | Description | Status |
-| :------- | :---------- | -----: |
-| String Concatenation | Concatenate two strings | Done |
-| Substring | Substring between two values | Done |
-| Character At | Finds the specific character at an index | Done |
-| Length | Get the length of a specific string | Done |
-| Split | Split a string on a regular expression | Done |
+| Function             | Description                              | Status |
+| :------------------- | :--------------------------------------- | -----: |
+| String Concatenation | Concatenate two strings                  |   Done |
+| Substring            | Substring between two values             |   Done |
+| Character At         | Finds the specific character at an index |   Done |
+| Length               | Get the length of a specific string      |   Done |
+| Split                | Split a string on a regular expression   |   Done |
 
 ### Equation Solving Library - **STARTED**
 
 The functions to be added to this library are:
 
-| Function | Description | Status |
-| :------- | :---------- | -----: |
-| Linear Solver | Solves a linear equation | Done |
-| Quadratic Solver | Solves a quadratic equation | Done |
-| Cubic Solver | Solves a cubic equation | Done |
-| Exponential Solver | Solves an exponential equation | Not started |
-| Logarithmic Solver | Solves a logarithmic equation | Not started |
-| Polynomial Solver | Solves a polynomial equation | Deemed Not Possible |
-| Derivative Calculator | Calculates derivative | Not started |
-| Integral Calculator | Calculate integral | Not started |
-| Polynomial Factoring | Factors a polynomial expression | Not started |
+| Function              | Description                     |              Status |
+| :-------------------- | :------------------------------ | ------------------: |
+| Linear Solver         | Solves a linear equation        |                Done |
+| Quadratic Solver      | Solves a quadratic equation     |                Done |
+| Cubic Solver          | Solves a cubic equation         |                Done |
+| Exponential Solver    | Solves an exponential equation  |         Not started |
+| Logarithmic Solver    | Solves a logarithmic equation   |         Not started |
+| Polynomial Solver     | Solves a polynomial equation    | Deemed Not Possible |
+| Derivative Calculator | Calculates derivative           |         Not started |
+| Integral Calculator   | Calculate integral              |         Not started |
+| Polynomial Factoring  | Factors a polynomial expression |         Not started |
 
 ### Statistic Analysis Library - **NOT STARTED**
 
 Some basic statistic analysis functions to be added are:
 
-| Function | Description | Status |
-| :------- | :---------- | -----: |
-| Standard T-test | Computes a standard T-test | Not started |
-| Z-score Calculator | Computes a Z-score | Not started |
-| ANNOVA Calculator | Computes an ANNOVA | Not started |
+| Function                         | Description                       |      Status |
+| :------------------------------- | :-------------------------------- | ----------: |
+| Standard T-test                  | Computes a standard T-test        | Not started |
+| Z-score Calculator               | Computes a Z-score                | Not started |
+| ANNOVA Calculator                | Computes an ANNOVA                | Not started |
 | Multiple Distribution Calculator | Calculates multiple discributions | Not started |
 
 ### SCLI Editor
@@ -93,8 +92,9 @@ If you are interested in seeing this project grow or helping me, feel free to co
 > Copyright (c) 2017 Sasank Venkata Vishnubhatla
 
 > Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-* Give full credit to the author
-* Properly cite this repository
+
+- Give full credit to the author
+- Properly cite this repository
 
 > The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
